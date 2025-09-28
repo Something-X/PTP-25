@@ -41,3 +41,8 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+// TAMBAHKAN TIPE INI
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>,
+> = T & SharedData;

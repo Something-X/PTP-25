@@ -1,15 +1,20 @@
 import { Head, Link, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { PageProps } from '@/types';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/heading';
 import { create as createAirline, edit as editAirline, destroy as destroyAirline } from '@/routes/admin/airlines';
 
-export default function Index({ airlines }: PageProps<{ airlines: { data: any[] } }>) {
+type Airline = {
+    id: number;
+    name: string;
+};
+
+export default function Index({ airlines }: PageProps<{ airlines: { data: Airline[] } }>) {
     const handleDelete = (id: number) => {
-        if (confirm('Are you sure you want to delete this airline?')) {
+        if (confirm('Are you sure?')) {
             router.delete(destroyAirline({ airline: id }));
         }
     };
@@ -18,26 +23,31 @@ export default function Index({ airlines }: PageProps<{ airlines: { data: any[] 
         <AppLayout>
             <Head title="Airlines" />
             <div className="p-4">
-                <Heading title="Airlines Management" description="Manage your airline data." />
-                <div className="flex justify-end mb-4">
+                <div className="flex justify-between items-center mb-4">
+                    <Heading title="Airlines Management" description="Manage your airline data." />
                     <Button asChild>
                         <Link href={createAirline()}>Add New Airline</Link>
                     </Button>
                 </div>
                 <Card>
-                    <CardContent className="pt-6">
+                    <CardHeader>
+                        <CardTitle>Airline List</CardTitle>
+                    </CardHeader>
+                    <CardContent>
                         <Table>
                             <TableHeader>
                                 <TableRow>
+                                    <TableHead>ID</TableHead>
                                     <TableHead>Name</TableHead>
-                                    <TableHead>Actions</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {airlines.data.map((airline) => (
                                     <TableRow key={airline.id}>
+                                        <TableCell>{airline.id}</TableCell>
                                         <TableCell>{airline.name}</TableCell>
-                                        <TableCell className="space-x-2">
+                                        <TableCell className="space-x-2 text-right">
                                             <Button variant="outline" asChild>
                                                 <Link href={editAirline({ airline: airline.id })}>Edit</Link>
                                             </Button>

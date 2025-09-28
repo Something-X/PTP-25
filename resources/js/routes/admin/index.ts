@@ -5,7 +5,7 @@ import airlines from './airlines'
 import routes from './routes'
 /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
 export const login = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -20,7 +20,7 @@ login.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
 login.url = (options?: RouteQueryOptions) => {
@@ -29,7 +29,7 @@ login.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
 login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -38,7 +38,7 @@ login.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
 login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -48,7 +48,7 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
     const loginForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -58,7 +58,7 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
         loginForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -67,7 +67,7 @@ login.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\LoginController::login
- * @see app/Http/Controllers/Admin/LoginController.php:20
+ * @see app/Http/Controllers/Admin/LoginController.php:17
  * @route '/admin/login'
  */
         loginForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

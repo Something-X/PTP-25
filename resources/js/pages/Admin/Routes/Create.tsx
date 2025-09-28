@@ -6,6 +6,7 @@ import Heading from '@/components/heading';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
+import { route } from 'ziggy-js';
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({

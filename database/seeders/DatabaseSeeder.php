@@ -8,27 +8,25 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // --- USER ADMIN ---
-        // Membuat user admin jika belum ada
+        // Membuat user admin
         User::firstOrCreate(
-            ['email' => 'admin@example.com'], // Kunci pencarian
+            ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
-                'is_admin' => true, // <-- Poin paling penting!
+                'is_admin' => true,
             ]
         );
 
-        // Panggil seeder lain untuk data penerbangan & pemesanan
+        // Panggil seeder lain dengan urutan yang benar
         $this->call([
+            AirlineSeeder::class,
+            FlightRouteSeeder::class,
             FlightSeeder::class,
-            BookingSeeder::class,
+            BookingSeeder::class, // BookingSeeder harus setelah FlightSeeder
         ]);
     }
 }

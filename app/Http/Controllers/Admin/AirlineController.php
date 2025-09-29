@@ -23,7 +23,7 @@ class AirlineController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate(['name' => 'required|string|max:255|unique:airlines']);
         Airline::create($request->all());
         return redirect()->route('admin.airlines.index')->with('success', 'Airline created.');
     }
@@ -37,7 +37,7 @@ class AirlineController extends Controller
 
     public function update(Request $request, Airline $airline)
     {
-        $request->validate(['name' => 'required|string|max:255']);
+        $request->validate(['name' => 'required|string|max:255|unique:airlines,name,' . $airline->id]);
         $airline->update($request->all());
         return redirect()->route('admin.airlines.index')->with('success', 'Airline updated.');
     }

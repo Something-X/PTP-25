@@ -11,9 +11,10 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { route } from 'ziggy-js'; // <-- tambahkan ini biar bisa akses route laravel
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, Plane, Map } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +22,21 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Admin Dashboard',
+        href: route('admin.dashboard').toString(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Airlines',
+        href: route('admin.airlines.index').toString(),
+        icon: Plane,
+    },
+    {
+        title: 'Routes',
+        href: route('admin.routes.index').toString(),
+        icon: Map,
     },
 ];
 

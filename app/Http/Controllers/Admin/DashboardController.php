@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\Flight;
-use App\Models\Payment; // <-- Tambahkan ini
+use App\Models\FlightRoute;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,24 +15,30 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        // Ambil data untuk ditampilkan
-        $bookings = Booking::with(['user', 'flight', 'payment'])->latest()->paginate(10);
-        $flights = Flight::orderBy('departure_time')->get();
+        // Statistik untuk kartu ringkasan
+        $totalPassengers = User::where('is_admin', false)->count();
+        $totalBookings = Booking::count();
+        $topRoute = FlightRoute::withCount('bookings')
+                                ->orderByDesc('bookings_count')
+                                ->first();
 
-        // Data untuk laporan singkat
-        $stats = [
-            'tickets_today' => Booking::whereDate('created_at', today())->count(),
-            'tickets_this_month' => Booking::whereMonth('created_at', now()->month)->count(),
-            // Tambahkan query untuk total pendapatan
-            'total_revenue' => Payment::where('status', 'paid')->sum('amount'),
-            // Tambahkan query untuk penerbangan terpopuler
-            'popular_flights' => Flight::withCount('bookings')->orderByDesc('bookings_count')->limit(5)->get(),
-        ];
+        // Data untuk grafik penjualan 7 hari terakhir
+        $salesData = Booking::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('count(*) as sales')
+        )
+        ->where('created_at', '>=', now()->subDays(7))
+        ->groupBy('date')
+        ->orderBy('date', 'asc')
+        ->get();
 
         return Inertia::render('Admin/Dashboard', [
-            'bookings' => $bookings,
-            'flights' => $flights,
-            'stats' => $stats,
+            'stats' => [
+                'totalPassengers' => $totalPassengers,
+                'totalBookings' => $totalBookings,
+                'topRoute' => $topRoute ? $topRoute->origin . ' → ' . $topRoute->destination : 'N/A',
+            ],
+            'salesData' => $salesData,
         ]);
     }
 }

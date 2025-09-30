@@ -28,6 +28,7 @@ class LoginController extends Controller
 
         $this->ensureIsNotRateLimited($request);
 
+        // Coba untuk melakukan login terlebih dahulu
         if (! Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey($request));
 
@@ -36,14 +37,19 @@ class LoginController extends Controller
             ]);
         }
 
+        // --- Logika yang Diperbaiki ---
+        // Setelah Auth::attempt berhasil, kita bisa cek user-nya
         $user = Auth::user();
 
         if ($user && $user->is_admin) {
+            // Jika user ada dan dia adalah admin, lanjutkan
             RateLimiter::clear($this->throttleKey($request));
             $request->session()->regenerate();
             return redirect()->intended(route('admin.dashboard'));
         }
 
+        // Jika user bukan admin (atau null, meskipun seharusnya tidak mungkin di titik ini),
+        // logout dan berikan pesan error
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -58,7 +64,9 @@ class LoginController extends Controller
         if (! RateLimiter::tooManyAttempts($this->throttleKey($request), 5)) {
             return;
         }
+
         $seconds = RateLimiter::availableIn($this->throttleKey($request));
+
         throw ValidationException::withMessages([
             'email' => trans('auth.throttle', [
                 'seconds' => $seconds,

@@ -7,11 +7,10 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\AirlineController;
 use App\Http\Controllers\Admin\FlightRouteController;
+use App\Http\Controllers\Admin\FlightController;
+use App\Http\Controllers\HomeController;
 
-// Route untuk Halaman Utama & User Biasa
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
@@ -38,6 +37,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Routes (CRUD)
         Route::resource('routes', FlightRouteController::class)->parameters(['routes' => 'flightRoute']);
+    });
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // ... (route login)
+    Route::middleware('admin')->group(function () {
+        // ... (dashboard, airlines, routes)
+
+        // --- TAMBAHKAN ROUTE INI ---
+        Route::resource('flights', FlightController::class);
     });
 });
 

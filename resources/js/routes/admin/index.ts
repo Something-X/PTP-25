@@ -3,6 +3,7 @@ import loginDf2c2a from './login'
 import bookings from './bookings'
 import airlines from './airlines'
 import routes from './routes'
+import flights from './flights'
 /**
 * @see \App\Http\Controllers\Admin\LoginController::login
  * @see app/Http/Controllers/Admin/LoginController.php:17
@@ -165,6 +166,7 @@ dashboard: Object.assign(dashboard, dashboard),
 bookings: Object.assign(bookings, bookings),
 airlines: Object.assign(airlines, airlines),
 routes: Object.assign(routes, routes),
+flights: Object.assign(flights, flights),
 }
 
 export default admin
